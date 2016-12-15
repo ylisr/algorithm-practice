@@ -122,9 +122,107 @@ repeat {
     counterChapter3 += 1
 } while roll != 0
 
+//Given a number, determine if this number is a power of 2
+let exampleNumber: Double = 1024
+let result = log2(exampleNumber)
+if result.truncatingRemainder(dividingBy: 1) == 0 {
+    print("The number is power of 2")
+}
 
+//print a table of first 10 powers of 2
+var counterForPowerOfTwo = 0
+while counterForPowerOfTwo < 10 {
+    var result = 2 * counterForPowerOfTwo
+    print(result)
+    counterForPowerOfTwo += 1
+}
+var exponent = 0
+var power = 1
+while exponent <= 10 {
+    print("\(exponent)\t\(power)")
+    exponent += 1
+    power *= 2
+}
 
+//How many days feburary has
+let thisYear = 2016
+if thisYear % 4 == 0 && thisYear % 100 != 0 {
+    "Feburary has 29 days"
+}else if thisYear % 400 == 0 {
+    "Feburary has 29 days"
+}else{
+    "Feburary has 28 days"
+}
 
+//Determine if the number is log2
+let sampleNumber = 1024.0
+let log = log2(sampleNumber)
+if log == Double(Int(log)) {
+    print("\(sampleNumber) is a power of 2")
+}else {
+    print("\(sampleNumber) is not a power of 2")
+}
+
+//calculate the nth fibonacci number
+let goal = 10
+var current = 1
+var previous = 1
+var done = 2
+while done < goal {
+    let next = current + previous
+    previous = current
+    current = next
+    done += 1
+}
+print("Fibonacci number \(goal) is \(current)")
+
+//factorial
+let n = 5
+var accumulator = 1
+done = 1
+while done < n {
+    accumulator *= done
+    done += 1
+}
+print("\(n)! is \(accumulator)")
+
+//the chance of rolling a specific number using two-sided dice.
+let targetValue = 5
+
+var combinationsFound = 0
+var valueOnFirstDice = 1
+while valueOnFirstDice < 7 {
+    var valueOnSecondDice = 1
+    while valueOnSecondDice < 7{
+        if valueOnFirstDice + valueOnSecondDice == targetValue {
+            combinationsFound += 1
+        }
+        valueOnSecondDice += 1
+    }
+    valueOnFirstDice += 1
+}
+let chanceOfRolling = Int(Double(combinationsFound) / 36 * 100)
+print("The odds of rolling a \(targetValue) are \(combinationsFound) in 36 or \(chanceOfRolling)%")
+
+/*
+ let closedRange = 0...5 (0, 1, 2, 3, 4, 5)
+ let halfOpenRange = 0..<5 (0, 1, 2, 3, 4)
+ for <CONSTANT> in <RANGE> {
+   <LOOP CODE>
+ }
+ Function parameters get copied before passing into the function (pass-by-value)
+ if you want a function to change its parameter value, mark it as inout (copy-in copy-out, call by value), add an ampersand(&) before the argument
+ func incrementAndPrint(_ value: inout Int){
+  value += 1
+  print(value)
+ }
+ var value = 5
+ incrementAndPrint(&value)
+ print(value)
+ 
+ 
+ 
+ */
 
 
 
