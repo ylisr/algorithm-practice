@@ -220,9 +220,174 @@ print("The odds of rolling a \(targetValue) are \(combinationsFound) in 36 or \(
  incrementAndPrint(&value)
  print(value)
  
+ Function overloading: different number of params, different param types, different external param names, different return type
+ use overloading for related functions that behave similarly
  
  
  */
+func add(_ a: Int, _ b: Int) -> Int {
+    return a + b
+}
+var variableFunc = add
+variableFunc(4, 2)
+
+func subtract(_ a: Int, _ b: Int) -> Int {
+    return a - b
+}
+variableFunc = subtract
+subtract(4, 2)
+
+func funcPrintResult(_ function: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+    let result = function(a, b)
+    print(result)
+}
+funcPrintResult(add, 4, 2)
+funcPrintResult(subtract, 4, 2)
+
+//Use stride to loop more flexiably
+for index in stride(from: 10, to: 22, by: 4) {
+    print(index)
+} // or change to to through to include the end
+
+func isNumberDiviaible(_ number: Int, by divisor: Int) -> Bool {
+    if number % divisor == 0 {
+        return true
+    }
+    return false
+}
+
+func isPrime(_ number: Int) -> Bool {
+    //always consider the anomallies and base case
+    if number < 0 {
+        return false
+    }
+    if number <= 3{
+        return true
+    }
+    let root = Int(sqrt(Double(number)))
+    for divisor in 2...root {
+        if isNumberDiviaible(number, by: divisor) {
+            return false
+        }
+    }
+    return true
+}
+
+isPrime(13)
+
+func fibonacci(_ number: Int) -> Int {
+    if number < 0 {
+        return 0
+    }
+    if number == 1 || number == 2 {
+        return 1
+    }
+    return fibonacci(number - 1) + fibonacci(number - 2)
+}
+
+print(fibonacci(10))
+
+/*
+ sentinel value: absense of value
+ An optional type is allowed to reference wither a value or nil
+ optional binding:
+    if let unwrappedAuthorName = authorName {
+        print("Author is \(unwrappedAuthorName"))
+    } else {
+        print("No author")
+    }
+ use guard statement to return early:
+    guard <CONDITION> (boolean or optional binding) else {
+        return
+    }
+ nil coalescing:
+    var mustHaveResult = optionalInt ?? 0 // will equal to either value inside optionalInt or 0 if prev is nil
+ 
+ 
+ */
+
+//assign a closure to a variable
+var multiplyClosure = { (a: Int, b: Int) -> Int in
+ return a * b
+}
+/*
+ no need to write return if you have single return statement
+ use type reference to shorten syntax by not writing param type
+ omit param list by using &0, &1
+ closure with no return type: -> Void
+ filter: takes a single param (a closure or function takes an element) and returns a Bool
+ map: takes a closure, execute it on each item in he array and return a new array containing each result with order maintained
+ reduce:takes a starting value and a closure(with the current value and an element from the array)
+    let sum = prices.reduce(0) {
+        return $0 + $1
+        }
+ 
+ */
+
+let nameArray = ["Alice", "Bobby", "Celia", "Duke", "Elena", "John"]
+let allNames = nameArray.reduce("") {
+    $0 + $1
+}
+let fourCharNames = nameArray.filter() {
+    return $0.characters.count > 4
+    }.reduce(""){
+        $0 + $1
+}
+
+let nameAndAges = ["Alice": 14, "Bobby": 19, "Celia": 25, "Duke": 32, "Elena": 21, "John": 9].filter() {
+    return $0.value >= 18
+    }.map(){
+        return $0.key
+}
+
+//Run the task closure, times number of times
+func repeatTask(times: Int, task: () -> Void) {
+    var counter = 0
+    while counter < times {
+        task()
+        counter += 1
+    }
+}
+
+repeatTask(times: 3, task: { print("Print this line")})
+
+//write a reuseable function to calculate sums
+func mathSum(length: Int, series: (Int) -> Int ) -> Int {
+    return (1...length).map(){
+        series($0)
+    }.reduce(0, +)
+}
+mathSum(length: 10){
+    $0 * $0
+}
+
+//use forEach to iterate through, use reduce to calculate the average ratings
+let appRatings = [
+    "Calendar Pro": [1, 5, 5, 4, 2, 1, 5, 4],
+    "The Messenger": [5, 4, 2, 5, 4, 1, 1, 2],
+    "Socialise": [2, 1, 2, 2, 1, 2, 4, 2]
+]
+
+var averageRatings: [String: Double] = [:]
+appRatings.forEach(){ dict in
+    let ratings = dict.value
+    //Average rating should be a Double!!
+    averageRatings[dict.key] = Double(ratings.reduce(0, +)) / Double(ratings.count)
+}
+print(averageRatings)
+
+let highlyRatedApps = averageRatings.filter(){
+    return $0.value >= 3
+    }.map() {
+        return $0.key
+}
+print(highlyRatedApps)
+
+
+
+
+
+
 
 
 
