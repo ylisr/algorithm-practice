@@ -508,11 +508,13 @@ let circle = Circle(radius: 5)
 let area = circle.area
 let areaOnSteroids = circle.grow(byfactor: 5)
 
-
-
-
-
-
+/*
+ == checks if two values are equal, === compares the memory address of two references
+ when overriding methods, call super.yourMethods() first. That way, the super class won't experience any side effects introduced by its subclass, and subclass won't need to know implementation details of its super class.
+ preventing inheritance - mark class as final
+ Initializers requires calling super.init() after you initialize properties
+ Two-phase initialization - 1) initialize all of the stored properties in the class instance, 2) use properties and methods as well as initializations requires using self.
+ */
 
 
 
