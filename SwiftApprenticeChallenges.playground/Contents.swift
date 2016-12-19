@@ -383,6 +383,137 @@ let highlyRatedApps = averageRatings.filter(){
 }
 print(highlyRatedApps)
 
+/*
+ named types: struct, properties, methods, classes, enum, protocol, generics
+ allows you to encapsulate related properties and behaviors
+ Double, String, Bool, Array and Dict are defiend as structs
+ type property declared using static var - on the struct itself rather than on the instances, the same value can be retrieved from anywhere
+ computed property - calculated every time it's accessed, expected to change
+ property observers - willSet(newValue), didSet(oldValue), not called during initialization
+ lazy stored property - calculation postponed until the first time its' accessed, must be declared a var even though value only changes once
+ 
+ 
+ */
+
+struct IceCream {
+    let name: String = "ice cream"
+    lazy var ingredients: [String] = {
+        return ["Ingredient1, Ingredient2, Ingredient3"]
+    }()
+}
+
+struct FuelTank {
+    var lowFuel: Bool
+    var level: Double {
+        didSet {
+            if level < 0 {
+                level = 0
+            }
+            if level > 1 {
+                level = 1
+            }
+            if level < 0.1{
+                lowFuel = true
+            }else{
+                lowFuel = false
+            }
+        }
+    }
+}
+
+struct Car {
+    let make: String
+    let color: String
+    var tank: FuelTank
+}
+
+var car = Car(make: "Toyota", color:"Black", tank:FuelTank(lowFuel:false, level: 1))
+car.tank.level = -1
+print(car.tank.lowFuel)
+car.tank.level = 1
+print(car.tank.lowFuel)
+
+/*
+ properties holds values, methods perform work
+ keyword mutating marks a method that changes a structure's value, this method must not be called on constants
+ prefix static to create type methods rather than instance methods
+ add init() as an extension to a struct to keep compiler generated memberwise initializer
+ 
+ */
+
+struct Math {
+    static func factorial(of number: Int) -> Int {
+        return (1...number).reduce(1, *)
+    }
+    static func triangle(of number: Int) -> Int {
+        return (1...number).reduce(0, +)
+    }
+}
+let factorial = Math.factorial(of: 6) //720
+let triangleNumber = Math.triangle(of: 6) // 21
+
+//When you want to add functionality but cannot access source code, use extension. It's not possible to add stored properties to existing structures becasue that would change the size and memory layout of the structure and break existing code.
+extension Math {
+    static func primeFactors(of value: Int) -> [Int] {
+        var remainingValue = value
+        var testFactor = 2
+        var primes: [Int] = []
+        
+        while testFactor * testFactor <= remainingValue {
+            if remainingValue % testFactor == 0 {
+                primes.append(testFactor)
+                remainingValue /= testFactor
+            }
+            else {
+                testFactor += 1
+            }
+        }
+        if remainingValue > 1 {
+            primes.append(remainingValue)
+        }
+        return primes
+    }
+    static func isEven(number: Int) -> Bool{
+        return number % 2 == 0
+    }
+    static func isOdd(number: Int) -> Bool{
+        //return number % 2 != 0
+        return (number + 1) % 2 == 0
+    }
+}
+
+let primeFactor = Math.primeFactors(of: 75)
+let isEven = Math.isEven(number: 3)
+let isOdd = Math.isOdd(number: 3)
+
+
+struct Circle {
+    var radius = 0.0
+    var area: Double {
+        get {
+            return .pi * radius * radius
+        }
+        set {
+            radius = sqrt(newValue / .pi)
+        }
+    }
+    init(radius: Double){
+        self.radius = radius
+    }
+    func grow(byfactor number: Double) -> Double{
+        return self.area * number
+    }
+}
+let circle = Circle(radius: 5)
+let area = circle.area
+let areaOnSteroids = circle.grow(byfactor: 5)
+
+
+
+
+
+
+
 
 
 
