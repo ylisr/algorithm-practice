@@ -1,6 +1,7 @@
 //: Playground - noun: a place where people can play
 
-import UIKit
+import Foundation
+import PlaygroundSupport
 
 /*
  To keep the file from being too lengthy, this is the second part from chapter 15 - 25 of the Swift Apprentice book
@@ -469,6 +470,103 @@ case (let lat, _) where lat > 0:
 default:
     break
 }
+
+/* failable initializer: init?(...)
+ flatmap: let notNilString = array.flatMap { $0.something?.string }
+ flatmap does a map operation and simplifies the result: [Optional<String>] -- [String] or turn an array of arrays into a single array
+ handle errors using the Error protocol: enum someError: Error { case }
+ throw errors: func(params...) throws -> returnType {
+        guard let CONDITION else {
+            throw EnumError.caseError
+            }
+        }
+ catch errors: do {
+            try someClass.callThisMethod(param...) 
+        }catch enumError.caseError {
+        print("Handle your error here")
+    }
+ stopping your program on an error: fatalError()
+ */
+
+/*unowned is weak that can never be nil
+ closures capture values form the enclosing scope. use self inside of a closure might create a references cycle.
+ self inside a closure means a reference to the current object is captured. 
+ capture list:
+        counter = 0
+        closure = { [counter] in print(counter) }
+        counter = 1
+        closure() //will print 0 because the closure copies the value of counter into a new local constant with the same name (counter is a value type, with reference types a capture list wil cause the closure to capture and store the current reference)
+ */
+
+class tutorial {
+    var title: String
+    var category: String
+    init(title: String, category: String) {
+        self.title = title
+        self.category = category
+    }
+    
+    //the closure doesn't exist after you release the tutorial object, self will never be nil, change strong reference to unowned here
+    lazy var tutorialDescriotion: () -> String = {
+        [unowned self] in
+        return "\(self.title) \(self.category)"
+    }
+}
+
+//GCD 
+func log(message: String) {
+    let thread = Thread.current.isMainThread ? "Main" : "Background"
+    print("\(thread) thread: \(message)")
+}
+
+func addNumbers(range: Int) -> Int {
+    log(message: "Adding numbers...")
+    return (1...range).reduce(0, +)
+}
+
+//to run task on background, create a queue
+let queue = DispatchQueue(label: "queue")
+
+//the background closure returns a generic and mainWork closure works with that result, mark both closures @escaping because they escape the function - used asynchronously so they get called after the function returns.
+func execute<T>(backgroundWork: @escaping () -> T, mainWork: @escaping (T) -> ()) {
+    queue.async {
+        //run backgroundwork asynchronously on the serial queue
+        let result = backgroundWork()
+        DispatchQueue.main.async {
+            //dispatch mainwork asynchronously on the main queue using the backgroundWork's result
+            mainWork(result)
+        }
+    }
+}
+
+//to run async code in playground, enable async mode 
+PlaygroundPage.current.needsIndefiniteExecution = true
+
+print("")
+
+execute(backgroundWork: { addNumbers(range: 100) }, mainWork: { log(message:"The sum is \($0)")})
+
+/*In async closures, you can't capture self as unowned because it may become nil at some point while running an async task.
+ use the strong weak pattern to extend an object's lifecycle for async closures
+ */
+class Editor {
+    var feedback: String = ""
+    func editTutorial() {
+        queue.async {
+            [weak self] in
+            
+            guard let StrongSelf = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                print(StrongSelf.feedback)
+            }
+        }
+    }
+}
+
+//Tip: use the visual debugger feature in XCode 8 to explore object graph at runtime
+
 
 
 
