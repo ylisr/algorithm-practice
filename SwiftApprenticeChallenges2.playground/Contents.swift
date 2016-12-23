@@ -567,8 +567,15 @@ class Editor {
 
 //Tip: use the visual debugger feature in XCode 8 to explore object graph at runtime
 
+/*immutable reference types have value semantics
+    var a = UIImage(named: "smile.jpg")
+    var b = a
+    computeValue(b)
+    doSomething(a)
+    computeValue(b) //doesn't change
+ */
 
-
+//copy on write pg 362
 
 
 
