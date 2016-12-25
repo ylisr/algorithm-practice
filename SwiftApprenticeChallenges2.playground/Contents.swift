@@ -575,9 +575,248 @@ class Editor {
     computeValue(b) //doesn't change
  */
 
-//copy on write pg 362
+struct Color: CustomStringConvertible {
+    var red, green, blue: Double
+    var description: String {
+        return "r: \(red) g: \(green) b: \(blue)"
+    }
+}
+
+extension Color {
+    static var black = Color(red: 0, green: 0, blue: 0)
+    static var white = Color(red: 1, green: 1, blue: 1)
+    static var blue  = Color(red: 0, green: 0, blue: 1)
+    static var green = Color(red: 0, green: 1, blue: 0)
+}
+
+class Bucket {
+    var color = Color.blue
+    var isRefilled = false
+    
+    convenience init(color: Color) {
+        self.init()
+        self.color = color
+    }
+    func refill() {
+        isRefilled = true
+    }
+}
+//value type containing mutable reference type
+struct PaintingPlan {
+    var accent = Color.white
+    private var bucket = Bucket()
+    
+    var bucketColor: Color {
+        get {
+            return bucket.color
+        }
+        set {
+            bucket = Bucket(color: newValue)
+        }
+    }
+}
+
+//use extensions on protocols to include actual implementation of the member(computed property etc), so that even you don't have concrete type that adopt the protocol, you can use members of the protocol within its extension.
+
+protocol TeamRecord {
+    var wins: Int { get }
+    var losses: Int { get }
+    var winningPercentage: Double { get }
+}
+
+extension TeamRecord {
+    var gamesPlayed: Int {
+        return wins  + losses
+    }
+    var winningPercentage: Double {
+        return Double(wins) / Double(wins) + Double(losses)
+    }
+}
+
+struct BaseballRecord: TeamRecord {
+    var wins: Int
+    var losses: Int
+    let seasonLength = 82
+}
+
+let newYork = BaseballRecord(wins: 10, losses: 5)
+let gamesPlayed = newYork.gamesPlayed //useful to define 'free' behavior on a protocol
+
+let miami = BaseballRecord(wins:60, losses: 22)
+let percentage = miami.winningPercentage
+
+struct HockeyRecord: TeamRecord {
+    var wins: Int
+    var losses: Int
+    var ties: Int
+    
+    var winningPercentage: Double {
+        return Double(wins) / Double(wins) + Double(losses) + Double(ties)
+    }
+}
+
+let boston = HockeyRecord(wins: 15, losses: 4, ties: 2)
+let hockeyPercentage = boston.winningPercentage
+
+extension CustomStringConvertible {
+    var description: String {
+        return ("Remember to implement CustomStringConvertable!")
+    }
+}
+struct MyStruct: CustomStringConvertible { }
+print(MyStruct())
+
+protocol WinLoss {
+    var wins: Int { get }
+    var losses: Int { get }
+}
+
+extension WinLoss {
+    var winningPercentage: Double {
+        return Double(wins) / (Double(wins) + Double(losses))
+    }
+}
+
+struct CricketRecord: WinLoss {
+    var wins: Int
+    var losses: Int
+    var draws: Int
+    
+    var winningPercentage: Double {
+        return Double(wins) / (Double(wins) + Double(losses) + Double(draws))
+    }
+}
+
+let miamiTuples = CricketRecord(wins: 8, losses: 7, draws: 1)
+let winLoss: WinLoss = miamiTuples
+
+miamiTuples.winningPercentage
+winLoss.winningPercentage
+//results are different because static dispatching chooses an implementation based on the type of the constants
+
+//use type constraint on protocol extensions
+protocol PostSeasonEligible {
+    var minimumWinsForPlayOffs: Int { get }
+}
 
 
+//in the extension of TeamRecord which has a type constraint of  Self: PostSeasonEligible that will apply the extension to all adopters of TeamRecord that also adopt PostSesonEligible.
+extension TeamRecord where Self: PostSeasonEligible {
+    var isPlayoffEligible: Bool {
+        return wins > minimumWinsForPlayOffs
+    }
+}
 
+//use type cpnstraints to create default implementations on specific type combinations.
+protocol Tieable {
+    var ties: Int { get }
+}
 
+extension TeamRecord where Self: Tieable {
+    var winningPercentage: Double {
+        return Double(wins) / (Double(wins) + Double(losses) + Double(ties))
+    }
+}
+
+struct RugyRecord: TeamRecord, Tieable {
+    var wins: Int
+    var losses: Int
+    var ties: Int
+}
+
+let rugyRecord = RugyRecord(wins: 8, losses: 7, ties: 1)
+rugyRecord.winningPercentage
+
+//Exercises page 381
+protocol Item: CustomStringConvertible {
+    var name: String { get }
+    var clearance: Bool { get }
+    var msrp: Double { get }
+    var totalPrice: Double { get }
+}
+
+protocol Taxable: Item {
+    var taxPercentage: Double { get }
+}
+
+protocol Discountable: Item {
+    var adjustedMsrp: Double { get }
+}
+
+extension Item {
+    var description: String {
+        return name
+    }
+    var totalPrice: Double {
+        return msrp
+    }
+}
+
+extension Item where Self: Taxable {
+    var totalPrice: Double {
+        return msrp * (1 + taxPercentage)
+    }
+}
+
+extension Item where Self: Discountable {
+    var totalPrice: Double {
+        return adjustedMsrp
+    }
+}
+
+extension Item where Self: Taxable & Discountable {
+    var totalPrice: Double {
+        return adjustedMsrp * (1 + taxPercentage)
+    }
+}
+
+struct Food: Taxable {
+    let name: String
+    var msrp: Double
+    var clearance: Bool
+    let expirationDate:(month: Int, year: Int)
+    
+    let taxPercentage = 0.075
+    
+    var adjustedMsrp: Double {
+        return msrp * (clearance ? 0.5 : 1.0)
+    }
+    
+    var description: String {
+        return "\(name) - expires \(expirationDate.month)/\(expirationDate.year)"
+    }
+}
+
+struct Clothing: Discountable {
+    var name: String
+    var clearance: Bool
+    var msrp: Double
+    
+    var adjustedMsrp: Double {
+        return msrp * (clearance ? 0.95 : 1.0)
+    }
+}
+
+struct Electronics: Taxable, Discountable {
+    var name: String
+    var clearance: Bool
+    var msrp: Double
+    
+    let taxPercentage = 0.075
+    
+    var adjustedMsrp: Double {
+        return msrp * (clearance ? 0.95 : 1.0)
+    }
+}
+
+extension Sequence {
+    func randomized() -> [Iterator.Element] {
+        return self.sorted { _ in
+            arc4random_uniform(2) == 0
+        }
+    }
+}
+
+let ordered = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+ordered.randomized()
 
