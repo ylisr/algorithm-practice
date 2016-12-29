@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,6 +20,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MXE-pS-Pyg">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="MXE-pS-Pyg" secondAttribute="height" multiplier="2:1" id="TKg-9Q-sIm"/>
+                                </constraints>
                                 <state key="normal" image="us">
                                     <attributedString key="attributedTitle"/>
                                 </state>
@@ -27,6 +31,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R5R-ft-aTA">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="R5R-ft-aTA" secondAttribute="height" multiplier="2:1" id="jlC-TR-DYw"/>
+                                </constraints>
                                 <state key="normal" image="us">
                                     <attributedString key="attributedTitle"/>
                                 </state>
@@ -35,6 +42,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Y5-lU-bgL">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9Y5-lU-bgL" secondAttribute="height" multiplier="2:1" id="odc-3h-efx"/>
+                                </constraints>
                                 <state key="normal" image="us">
                                     <attributedString key="attributedTitle"/>
                                 </state>
@@ -54,13 +64,16 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hpK-cY-M0X" firstAttribute="leading" secondItem="9Y5-lU-bgL" secondAttribute="leading" id="7Yr-Hq-NLj"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9Y5-lU-bgL" secondAttribute="bottom" constant="20" id="BSW-gs-Cyg"/>
                             <constraint firstItem="MXE-pS-Pyg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="36" id="BVx-Mb-3Yl"/>
                             <constraint firstItem="hpK-cY-M0X" firstAttribute="trailing" secondItem="9Y5-lU-bgL" secondAttribute="trailing" id="Dcj-xz-diQ"/>
+                            <constraint firstItem="R5R-ft-aTA" firstAttribute="height" secondItem="MXE-pS-Pyg" secondAttribute="height" id="IsA-bJ-6tP"/>
                             <constraint firstItem="R5R-ft-aTA" firstAttribute="top" secondItem="MXE-pS-Pyg" secondAttribute="bottom" constant="30" id="IwO-nJ-TUA"/>
                             <constraint firstItem="MXE-pS-Pyg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Q5W-Fc-Z3Z"/>
                             <constraint firstItem="9Y5-lU-bgL" firstAttribute="top" secondItem="R5R-ft-aTA" secondAttribute="bottom" constant="30" id="TFX-RE-1Mh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hpK-cY-M0X" secondAttribute="bottom" constant="74" id="UJe-k6-Qv3"/>
                             <constraint firstItem="9Y5-lU-bgL" firstAttribute="centerX" secondItem="R5R-ft-aTA" secondAttribute="centerX" id="jE5-UT-dZs"/>
+                            <constraint firstItem="9Y5-lU-bgL" firstAttribute="height" secondItem="R5R-ft-aTA" secondAttribute="height" id="tBf-wf-yic"/>
                             <constraint firstItem="R5R-ft-aTA" firstAttribute="centerX" secondItem="MXE-pS-Pyg" secondAttribute="centerX" id="xYQ-bb-vLI"/>
                         </constraints>
                     </view>
