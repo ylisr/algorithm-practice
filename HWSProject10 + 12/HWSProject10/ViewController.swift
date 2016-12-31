@@ -14,8 +14,12 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+        
+        let defaults = UserDefaults.standard
+        if let savedPeople = defaults.object(forKey: "people") as? Data {
+            people = NSKeyedUnarchiver.unarchiveObject(with: savedPeople) as! [Person]
+        }
     }
     
     func addNewPerson() {
@@ -23,6 +27,12 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    func save() {
+        let savedData = NSKeyedArchiver.archivedData(withRootObject: people)
+        let defaults = UserDefaults.standard
+        defaults.set(savedData, forKey: "people")
     }
 
     //MARK: UIImagePickerController Delegate
@@ -80,6 +90,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
                 let newName = ac.textFields![0]
                 person.name = newName.text!
                 self.collectionView?.reloadData()
+                self.save()
         })
         present(ac, animated: true)
     }
