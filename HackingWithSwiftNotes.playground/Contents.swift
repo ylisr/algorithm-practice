@@ -155,6 +155,15 @@ UIView.animate(withDuration: 0.5, animations: {
     vw.alpha = 0
 })
 
+//Note: print() is a variadic function, optional extra parameters avaliable: separator, terminator
+print(1, 2, 3, 4, 5, separator: "-")
+print("message", terminator: "")
+
+//Note: assert() crashes your app during debugging, when shipped to App Store,l all assertions are disabled. assert() takes two params: check conditions, print messages.
+assert(1 == 2, "Maths failure!")
+
+//Note: View debugging: under debug menu choose View Debugging - Show View Frames, capture view frames
+
 
 
 
