@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2222CB1E1CAB3D00ACD9BF /* KeychainOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2222C91E1CAB3D00ACD9BF /* KeychainOptions.swift */; };
+		AA2222CC1E1CAB3D00ACD9BF /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2222CA1E1CAB3D00ACD9BF /* KeychainWrapper.swift */; };
 		AACFC3D21E1A1AAB00F41C03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACFC3D11E1A1AAB00F41C03 /* AppDelegate.swift */; };
 		AACFC3D41E1A1AAB00F41C03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACFC3D31E1A1AAB00F41C03 /* ViewController.swift */; };
 		AACFC3D71E1A1AAB00F41C03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AACFC3D51E1A1AAB00F41C03 /* Main.storyboard */; };
@@ -43,6 +45,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA2222C91E1CAB3D00ACD9BF /* KeychainOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainOptions.swift; sourceTree = "<group>"; };
+		AA2222CA1E1CAB3D00ACD9BF /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		AACFC3CE1E1A1AAB00F41C03 /* HWSProject16.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HWSProject16.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AACFC3D11E1A1AAB00F41C03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AACFC3D31E1A1AAB00F41C03 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 				AACFC3D81E1A1AAB00F41C03 /* Assets.xcassets */,
 				AACFC3DA1E1A1AAB00F41C03 /* LaunchScreen.storyboard */,
 				AACFC3DD1E1A1AAB00F41C03 /* Info.plist */,
+				AA2222C91E1CAB3D00ACD9BF /* KeychainOptions.swift */,
+				AA2222CA1E1CAB3D00ACD9BF /* KeychainWrapper.swift */,
 			);
 			path = HWSProject16;
 			sourceTree = "<group>";
@@ -223,6 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACFC3D41E1A1AAB00F41C03 /* ViewController.swift in Sources */,
+				AA2222CC1E1CAB3D00ACD9BF /* KeychainWrapper.swift in Sources */,
+				AA2222CB1E1CAB3D00ACD9BF /* KeychainOptions.swift in Sources */,
 				AACFC3D21E1A1AAB00F41C03 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +441,7 @@
 				AACFC3E21E1A1AAB00F41C03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AACFC3F21E1A1B9200F41C03 /* Build configuration list for PBXNativeTarget "Extension" */ = {
 			isa = XCConfigurationList;
@@ -441,6 +450,7 @@
 				AACFC3F41E1A1B9200F41C03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
